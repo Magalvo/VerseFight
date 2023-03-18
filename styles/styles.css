@@ -3,3 +3,34 @@ body {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.div1 {
+  position: relative;
+  display: inline-block;
+}
+
+.div2 {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.div3 {
+  background-color: yellow;
+  height: 30px;
+  width: 100%;
+}
+
+.div4 {
+  background-color: red;
+  height: 100px;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.div5 {
+  background-color: yellow;
+  height: 30px;
+  width: 100%;
+}
