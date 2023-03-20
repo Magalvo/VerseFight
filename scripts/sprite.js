@@ -1,4 +1,4 @@
-let gravity = 0.7; //changes depending on the map (Moon, Mars, Earth)
+let gravity = 0.4; //changes depending on the map (Moon, Mars, Earth)
 
 //Creates the player
 class Sprite {

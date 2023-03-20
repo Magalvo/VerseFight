@@ -13,8 +13,8 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 const player = new Sprite({
   position: {
-    x: 0,
-    y: 0
+    x: canvas.width / 2 - 50,
+    y: 100
   },
   velocity: {
     x: 0,
@@ -29,7 +29,7 @@ const player = new Sprite({
 
 const enemy = new Sprite({
   position: {
-    x: 400,
+    x: canvas.width / 2 + 50,
     y: 100
   },
   velocity: {
@@ -45,24 +45,24 @@ const enemy = new Sprite({
 
 const base1 = new Platform(canvas.width / 2 / 2, canvas.height / 2, 600, 40);
 
-const base2 = new Platform(canvas.width / 4, canvas.height / 4, 200, 20);
+const base2 = new Platform(canvas.width / 4, canvas.height / 4, 600, 40);
 const base3 = new Platform(
   canvas.width / 4,
   canvas.height - canvas.height / 4,
-  200,
-  20
+  600,
+  40
 );
 const base4 = new Platform(
   canvas.width - canvas.width / 4,
   canvas.height / 4,
-  200,
-  20
+  600,
+  40
 );
 const base5 = new Platform(
   canvas.width - canvas.width / 4,
   canvas.height - canvas.height / 4,
-  200,
-  20
+  600,
+  40
 );
 
 const keys = {
