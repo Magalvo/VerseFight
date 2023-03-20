@@ -43,7 +43,7 @@ const enemy = new Sprite({
   color: 'red'
 });
 
-const base1 = new Platform(canvas.width / 2, canvas.height / 2, 600, 40);
+const base1 = new Platform(canvas.width / 2 / 2, canvas.height / 2, 600, 40);
 
 const base2 = new Platform(canvas.width / 4, canvas.height / 4, 200, 20);
 const base3 = new Platform(
