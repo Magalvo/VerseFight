@@ -11,17 +11,24 @@
     <div class="div1">
       <div class="div2">
         <!--Player Health -->
-        <div class="div3"></div>
+        <div class="parent56-2">
+          <div class="div5-2"></div>
+          <div class="div6-2" id="playerHealth"></div>
+        </div>
         <!-- Enemy health -->
-        <div class="div4"></div>
-        <!-- Timer -->
-        <div class="div5"></div>
+        <div id="timer" class="div4">10</div>
+        <div class="parent56">
+          <div class="div5"></div>
+          <div class="div6" id="enemyHealth"></div>
+        </div>
       </div>
+      <div id="displayText" class="tie">Tie</div>
       <canvas id="arena"></canvas>
     </div>
 
     <script src="/scripts/sprite.js"></script>
     <script src="/scripts/platform.js"></script>
+    <script src="/scripts/background.js"></script>
     <script src="/scripts/index.js"></script>
   </body>
 </html>

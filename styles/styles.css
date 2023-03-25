@@ -1,9 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
 }
-
+.arena {
+  background-image: src= '/Images/mapinhu.png';
+}
 .div1 {
   position: relative;
   display: inline-block;
@@ -14,23 +20,92 @@ body {
   display: flex;
   width: 100%;
   align-items: center;
+  padding: 20px;
 }
 
 .div3 {
-  background-color: yellow;
+  background-color: red;
   height: 30px;
   width: 100%;
 }
 
 .div4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: red;
   height: 100px;
   width: 100px;
+  border-radius: 30px;
   flex-shrink: 0;
+  border: 2px solid darkgray;
+}
+
+.parent56 {
+  position: relative;
+  height: 30px;
+  width: 100%;
+}
+
+.parent56-2 {
+  position: relative;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.div6-2 {
+  position: absolute;
+  background-color: limegreen;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border: 2px solid darkgray;
+  border-radius: 30px;
+}
+
+.div5-2 {
+  background-color: red;
+  height: 30px;
+  width: 100%;
+  border: 2px solid darkgray;
+  border-radius: 30px;
 }
 
 .div5 {
-  background-color: yellow;
+  background-color: red;
   height: 30px;
-  width: 100%;
+  border: 2px solid darkgray;
+  border-radius: 30px;
+}
+
+.div6 {
+  position: absolute;
+  background-color: limegreen;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 2px solid darkgray;
+  border-radius: 30px;
+}
+
+.tie {
+  position: absolute;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+.button {
+  border: 2px solid black;
+  border-radius: 30px;
+  background-color: aliceblue;
 }

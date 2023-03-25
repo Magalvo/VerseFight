@@ -3,17 +3,20 @@ console.log('JS Loaded');
 const canvas = document.getElementById('arena');
 const ctx = canvas.getContext('2d');
 
-/* canvas.width = 1024;
-canvas.height = 576; */
+//Default Canvas
+canvas.width = 1024;
+canvas.height = 576;
 
+//Full Screen Width
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+// Player Ensatiation
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 50,
+    x: canvas.width / 2 - 150,
     y: 100
   },
   velocity: {
@@ -27,9 +30,10 @@ const player = new Sprite({
   color: 'blue'
 });
 
+//Enemy Ensasiation
 const enemy = new Sprite({
   position: {
-    x: canvas.width / 2 + 50,
+    x: canvas.width / 2 + 200,
     y: 100
   },
   velocity: {
@@ -43,27 +47,15 @@ const enemy = new Sprite({
   color: 'red'
 });
 
-const base1 = new Platform(canvas.width / 2 / 2, canvas.height / 2, 600, 40);
+// Platforms Ensatiations
+const base1 = new Platform(
+  canvas.width / 2 - 144,
+  canvas.height / 2 + 50,
+  350,
+  24
+);
 
-const base2 = new Platform(canvas.width / 4, canvas.height / 4, 600, 40);
-const base3 = new Platform(
-  canvas.width / 4,
-  canvas.height - canvas.height / 4,
-  600,
-  40
-);
-const base4 = new Platform(
-  canvas.width - canvas.width / 4,
-  canvas.height / 4,
-  600,
-  40
-);
-const base5 = new Platform(
-  canvas.width - canvas.width / 4,
-  canvas.height - canvas.height / 4,
-  600,
-  40
-);
+const base2 = new Platform(canvas.widht / 4 - 100, canvas.height / 4, 200, 24);
 
 const keys = {
   a: {
@@ -95,61 +87,78 @@ function rectangleCollision({ rectangle1, rectangle2 }) {
   );
 }
 
-// stays on top of platform
+// Winning Conditions
+function determineWinner({ player, enemy, timmerId }) {
+  clearTimeout(timmerId);
+  document.getElementById('displayText').style.display = 'flex';
+  player.velocity.y = 100;
+  player.velocity.x = 0;
+  enemy.velocity.y = 100;
+  enemy.velocity.x = 0;
 
-/* function platformColision({ player, platform }) {
-  if (
-    player.position.y + player.height <= platform.y &&
-    player.position.y + player.gravity + player.height >= platform.y &&
-    player.position.x >= platform.x &&
-    player.position.x <= platform.x + platform.width
-  ) {
-    player.velocity = 0;
+  if (player.health === enemy.health) {
+    console.log('Tie');
+    document.getElementById('displayText').innerHTML = 'TIE';
+  } else if (player.health > enemy.health) {
+    document.getElementById('displayText').innerHTML = 'Player 1 Wins';
+  } else if (player.health < enemy.health) {
+    document.getElementById('displayText').innerHTML = 'Player 2 Wins';
   }
-} */
+}
 
-/* const enemies = [];
+let timer = 60;
+let timmerId;
+function decreaseTimer() {
+  if (timer > 0) {
+    timmerId = setTimeout(decreaseTimer, 1000);
+    timer--;
+    document.getElementById('timer').innerHTML = timer;
+  }
 
-function drawPlatforms() {
-  enemies.push(base1);
-  enemies.forEach(el => el.draw());
-  /*  base2.draw();
-  base3.draw();
-  base4.draw();
-  base5.draw(); 
-} */
+  if (timer === 0) {
+    determineWinner({ player, enemy });
+  }
+}
+decreaseTimer();
+
+const background = new Background({
+  position: {
+    x: 0,
+    y: 0
+  },
+  imgSrc: '../Images/fundo_com_loja.png',
+  canvas: {
+    width: canvas.width,
+    height: canvas.height
+  }
+});
 
 function animate() {
   window.requestAnimationFrame(animate);
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  player.update();
-  enemy.update();
-  //drawPlatforms();
+  background.updateBackground();
   base1.draw();
   base2.draw();
-  base3.draw();
-  base4.draw();
-  base5.draw();
+  player.update();
+  enemy.update();
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
 
-  //player movement
+  //player movement reset
   if (keys.a.pressed && player.lastKey === 'a') {
     player.velocity.x = -5;
   } else if (keys.d.pressed && player.lastKey === 'd') {
     player.velocity.x = 5;
   }
 
-  //enemy movement
+  //enemy movement reset
   if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
     enemy.velocity.x = -5;
   } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
     enemy.velocity.x = 5;
   }
 
-  //detect for colision - attack
+  // Player Winning Conditions and Life Bar Mechanics
   if (
     rectangleCollision({
       rectangle1: player,
@@ -158,9 +167,15 @@ function animate() {
     player.isAttacking
   ) {
     player.isAttacking = false;
+    enemy.health -= 20;
+    document.getElementById('enemyHealth').style.width = enemy.health + '%';
     console.log('Player Attacking!');
+  } else if (enemy.position.y + enemy.height >= canvas.height) {
+    enemy.health -= 100;
+    document.getElementById('enemyHealth').style.width = enemy.health + '%';
   }
 
+  // Enemy Winning Conditions and Life Bar Mechanics
   if (
     rectangleCollision({
       rectangle1: enemy,
@@ -169,43 +184,36 @@ function animate() {
     enemy.isAttacking
   ) {
     enemy.isAttacking = false;
+    player.health -= 20;
+    document.getElementById('playerHealth').style.width = player.health + '%';
     console.log('Enemy Attacking!');
+  } else if (player.position.y + player.height >= canvas.height) {
+    player.health -= 100;
+    document.getElementById('playerHealth').style.width = player.health + '%';
   }
-  //enemies.forEach(el => player.collision(el));
 
-  //base1.detectOnTop(player);
+  if (enemy.health <= 0 || player.health <= 0) {
+    determineWinner({ player, enemy, timmerId });
+  }
 
-  player.detectOnTop(base1);
-  player.detectOnBottom(base1);
+  // Platform Colision Detection
+  if (
+    player.position.y + player.height <= base1.y &&
+    player.position.y + player.height + player.velocity.y >= base1.y &&
+    player.position.x + player.width >= base1.x &&
+    player.position.x <= base1.x + base1.width
+  ) {
+    player.velocity.y = 0;
+  }
 
-  player.detectOnTop(base2);
-  player.detectOnBottom(base2);
-
-  player.detectOnTop(base3);
-  player.detectOnBottom(base3);
-
-  player.detectOnTop(base4);
-  player.detectOnBottom(base4);
-
-  player.detectOnTop(base5);
-  player.detectOnBottom(base5);
-
-  enemy.detectOnTop(base1);
-  enemy.detectOnBottom(base1);
-
-  enemy.detectOnTop(base2);
-  enemy.detectOnBottom(base2);
-
-  enemy.detectOnTop(base3);
-  enemy.detectOnBottom(base3);
-
-  enemy.detectOnTop(base4);
-  enemy.detectOnBottom(base4);
-
-  enemy.detectOnTop(base5);
-  enemy.detectOnBottom(base5);
-
-  //base1.detectOnBottom(player);
+  if (
+    enemy.position.y + enemy.height <= base1.y &&
+    enemy.position.y + enemy.height + enemy.velocity.y >= base1.y &&
+    enemy.position.x + enemy.width >= base1.x &&
+    enemy.position.x <= base1.x + base1.width
+  ) {
+    enemy.velocity.y = 0;
+  }
 }
 
 animate();
@@ -253,6 +261,7 @@ window.addEventListener('keydown', event => {
 //------------------------------ KEY UP (STOP) -----------------------------//
 window.addEventListener('keyup', event => {
   event.preventDefault();
+  //Player Keys
   switch (event.key) {
     case 'd':
       keys.d.pressed = false;
