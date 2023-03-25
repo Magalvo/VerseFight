@@ -1,14 +1,20 @@
+const image = new Image();
+image.src = '/Images/PlatUpDate.png';
+
 class Platform {
-  constructor(x, y, width, height) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = height;
+    this.width = image.width;
+    this.height = image.height;
+    this.image = new Image();
+    this.image.src = '/Images/PlatUpDate.png';
   }
 
   draw() {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    /*     ctx.fillStyle = 'green';
+    ctx.fillRect(this.x, this.y, this.width, this.height); */
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
   colision(player) {

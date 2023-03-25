@@ -33,7 +33,7 @@ const player = new Sprite({
 //Enemy Ensasiation
 const enemy = new Sprite({
   position: {
-    x: canvas.width / 2 + 200,
+    x: canvas.width / 2 + 100,
     y: 100
   },
   velocity: {
@@ -91,10 +91,10 @@ function rectangleCollision({ rectangle1, rectangle2 }) {
 function determineWinner({ player, enemy, timmerId }) {
   clearTimeout(timmerId);
   document.getElementById('displayText').style.display = 'flex';
-  player.velocity.y = 100;
+  /* player.velocity.y = 0;
   player.velocity.x = 0;
-  enemy.velocity.y = 100;
-  enemy.velocity.x = 0;
+  enemy.velocity.y = 0;
+  enemy.velocity.x = 0; */
 
   if (player.health === enemy.health) {
     console.log('Tie');
@@ -223,38 +223,52 @@ animate();
 //------------------------------ KEY DOWN (MOVE) ----------------------------//
 window.addEventListener('keydown', event => {
   event.preventDefault();
-  switch (event.key) {
-    //Player Keys
-    case 'd':
-      keys.d.pressed = true;
-      player.lastKey = 'd';
-      break;
-    case 'a':
-      keys.a.pressed = true;
-      player.lastKey = 'a';
-      break;
-    case 'w':
-      player.velocity.y = -20;
-      break;
-    case ' ':
-      player.attack();
-      break;
 
-    //Enemy Keys
-    case 'ArrowRight':
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = 'ArrowRight';
-      break;
-    case 'ArrowLeft':
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = 'ArrowLeft';
-      break;
-    case 'ArrowUp':
-      enemy.velocity.y = -20;
-      break;
-    case 'ArrowDown':
-      enemy.attack();
-      break;
+  if (player.health > 0) {
+    switch (event.key) {
+      //Player Keys
+      case 'd':
+        keys.d.pressed = true;
+        player.lastKey = 'd';
+        break;
+      case 'a':
+        keys.a.pressed = true;
+        player.lastKey = 'a';
+        break;
+      case 'w':
+        if (player.health > 0) {
+          player.velocity.y = -20;
+        }
+        break;
+      case 's':
+        if (player.health > 0) {
+        }
+        player.attack();
+
+        break;
+    }
+  }
+
+  if (enemy.health > 0) {
+    switch (event.key) {
+      case 'ArrowRight':
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = 'ArrowRight';
+        break;
+      case 'ArrowLeft':
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = 'ArrowLeft';
+        break;
+      case 'ArrowUp':
+        if (enemy.health > 0) {
+          enemy.velocity.y = -20;
+        }
+        break;
+      case 'ArrowDown':
+        enemy.attack();
+
+        break;
+    }
   }
 });
 

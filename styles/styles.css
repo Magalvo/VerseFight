@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -93,6 +95,8 @@ body {
 }
 
 .tie {
+  font-family: Righteous;
+  font-size: 200px;
   position: absolute;
   color: white;
   align-items: center;
