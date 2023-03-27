@@ -1,8 +1,8 @@
 class Background {
   constructor({ position, imgSrc, canvas }) {
+    this.position = position;
     this.width = 733;
     this.height = 706;
-    this.position = position;
     this.image = new Image();
     this.image.src = imgSrc;
     this.canvas = canvas;

@@ -8,7 +8,7 @@ class Platform {
     this.width = image.width;
     this.height = image.height;
     this.image = new Image();
-    this.image.src = '/Images/PlatUpDate.png';
+    this.image.src = '/Images/PlatUpDateV2.png';
   }
 
   draw() {
