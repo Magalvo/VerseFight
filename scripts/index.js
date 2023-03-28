@@ -95,7 +95,7 @@ const enemy = new Sprite({
   scale: 1.4,
   offset: {
     x: 170,
-    y: 96
+    y: 100
   },
   sprites: {
     idle: {
@@ -255,7 +255,6 @@ function decreaseTimer() {
     timmerId = setTimeout(decreaseTimer, 1000);
     timer--;
     document.getElementById('timer').innerHTML = timer;
-    //return timer;
   }
 
   if (timer === 0) {
@@ -269,14 +268,14 @@ let backgroundShop = new Background({
     x: 0,
     y: 0
   },
-  imgSrc: '../Images/game background shop fitted.png',
+  imgSrc: '../Images/game_background_shop_fitted.png',
   canvas: {
     width: canvas.width,
     height: canvas.height
   }
 });
 
-/* let backgroundForest = new Background({
+let backgroundForest = new Background({
   position: {
     x: 0,
     y: 0
@@ -286,7 +285,7 @@ let backgroundShop = new Background({
     width: canvas.width,
     height: canvas.height
   }
-}); */
+});
 
 /* let mapSelect;
 
@@ -303,6 +302,7 @@ function start(map) {
 
 function animate() {
   window.requestAnimationFrame(animate);
+
   //if (mapSelect === 'shop') {
   backgroundShop.updateBackground();
   /*   } else if (mapSelect === 'forest') { */
@@ -457,7 +457,165 @@ function animate() {
   }
 }
 
-animate();
+function animate2() {
+  window.requestAnimationFrame(animate2);
+
+  //if (mapSelect === 'shop') {
+  backgroundForest.updateBackground();
+  /*   } else if (mapSelect === 'forest') { */
+  /* backgroundForest.updateBackground(); */
+  /*  shop2.update(); */
+  //shop.update();
+  base1.draw();
+  base2.draw();
+  base3.draw();
+
+  player.update();
+  enemy.update();
+
+  player.velocity.x = 0;
+  enemy.velocity.x = 0;
+
+  //player movement reset
+
+  if (keys.a.pressed && player.lastKey === 'a') {
+    player.velocity.x = -5;
+    player.switchSprite('run');
+  } else if (keys.d.pressed && player.lastKey === 'd') {
+    player.velocity.x = 5;
+    player.switchSprite('run');
+  } else {
+    player.switchSprite('idle');
+  }
+
+  // player jumping
+  if (player.velocity.y < gravity) {
+    player.switchSprite('jump');
+    this.position = 346;
+  } else if (player.velocity.y > gravity) {
+    player.switchSprite('fall');
+  }
+  console.log(player.position.y);
+  //enemy movement reset
+  if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+    enemy.velocity.x = -5;
+    enemy.switchSprite('run');
+  } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+    enemy.velocity.x = 5;
+    enemy.switchSprite('run');
+  } else {
+    enemy.switchSprite('idle');
+  }
+
+  // enemy jumping
+  if (enemy.velocity.y < 0.7) {
+    enemy.switchSprite('jump');
+  } else if (enemy.velocity.y > 0.7) {
+    enemy.switchSprite('fall');
+  }
+
+  // Player Winning Conditions and Life Bar Mechanics
+  if (
+    rectangleCollision({
+      rectangle1: player,
+      rectangle2: enemy
+    }) &&
+    player.isAttacking
+  ) {
+    player.isAttacking = false;
+    enemy.health -= 20;
+    document.getElementById('enemyHealth').style.width = enemy.health + '%';
+    console.log('Player Attacking!');
+  } else if (enemy.position.y + enemy.height >= canvas.height) {
+    enemy.health -= 100;
+    document.getElementById('enemyHealth').style.width = enemy.health + '%';
+    /* restart(); */
+  }
+
+  // Enemy Winning Conditions and Life Bar Mechanics
+  if (
+    rectangleCollision({
+      rectangle1: enemy,
+      rectangle2: player
+    }) &&
+    enemy.isAttacking
+  ) {
+    enemy.isAttacking = false;
+    player.health -= 20;
+    document.getElementById('playerHealth').style.width = player.health + '%';
+    console.log('Enemy Attacking!');
+  } else if (player.position.y + player.height >= canvas.height) {
+    player.health -= 100;
+    document.getElementById('playerHealth').style.width = player.health + '%';
+    /* restart(); */
+  }
+
+  if (enemy.health <= 0 || player.health <= 0) {
+    determineWinner({ player, enemy, timmerId });
+  }
+
+  // Platform Colision Detection
+
+  //--------- Platform 1 ---------
+  if (
+    player.position.y + player.height <= base1.y &&
+    player.position.y + player.height + player.velocity.y >= base1.y &&
+    player.position.x + player.width >= base1.x &&
+    player.position.x <= base1.x + base1.width
+  ) {
+    player.velocity.y = 0;
+  }
+
+  if (
+    enemy.position.y + enemy.height <= base1.y &&
+    enemy.position.y + enemy.height + enemy.velocity.y >= base1.y &&
+    enemy.position.x + enemy.width >= base1.x &&
+    enemy.position.x <= base1.x + base1.width
+  ) {
+    enemy.velocity.y = 0;
+  }
+
+  //---------- Platform 2---------
+  if (
+    player.position.y + player.height <= base2.y &&
+    player.position.y + player.height + player.velocity.y >= base2.y &&
+    player.position.x + player.width >= base2.x &&
+    player.position.x <= base2.x + base2.width
+  ) {
+    player.velocity.y = 0;
+  }
+
+  if (
+    enemy.position.y + enemy.height <= base2.y &&
+    enemy.position.y + enemy.height + enemy.velocity.y >= base2.y &&
+    enemy.position.x + enemy.width >= base2.x &&
+    enemy.position.x <= base2.x + base2.width
+  ) {
+    enemy.velocity.y = 0;
+  }
+
+  //---------- Platform 3 ---------
+  if (
+    player.position.y + player.height <= base3.y &&
+    player.position.y + player.height + player.velocity.y >= base3.y &&
+    player.position.x + player.width >= base3.x &&
+    player.position.x <= base3.x + base3.width
+  ) {
+    player.velocity.y = 0;
+  }
+
+  if (
+    enemy.position.y + enemy.height <= base3.y &&
+    enemy.position.y + enemy.height + enemy.velocity.y >= base3.y &&
+    enemy.position.x + enemy.width >= base3.x &&
+    enemy.position.x <= base3.x + base3.width
+  ) {
+    enemy.velocity.y = 0;
+  }
+}
+
+//animate();
+
 /* function initialization(map) {
   if (map === 'forest') {
     mapSelect = forest;
@@ -470,6 +628,25 @@ animate();
 } */
 
 //EVENT_LISTENERS
+
+const shopBtn = document.getElementById('shopBtn');
+const forestBtn = document.getElementById('forestBtn');
+const navBar = document.getElementById('navBar');
+const startScreen = document.getElementById('startScreen');
+
+shopBtn.addEventListener('click', () => {
+  navBar.style.display = 'none';
+  startScreen.style.display = 'none';
+
+  animate();
+});
+
+forestBtn.addEventListener('click', () => {
+  navBar.style.display = 'none';
+  startScreen.style.display = 'none';
+
+  animate2();
+});
 
 //------------------------------ KEY DOWN (MOVE) ----------------------------//
 window.addEventListener('keydown', event => {

@@ -8,20 +8,16 @@
     <title>The Lost SamuraKat</title>
   </head>
   <body>
-    <div class="start">
-      <nav>
-        <button></button>
-        <button></button>
-        <button></button>
+    <div class="start" id="startScreen">
+      <nav class="nav" id="navBar">
+        <button class="nav-btn">Rules</button>
+        <button class="nav-btn">About</button>
+        <button class="nav-btn">GitHub</button>
       </nav>
-      <h1>Verse Fight</h1>
-      <div><button class="btn-shop" id="shop-btn">Shop Map</button></div>
-      <div><button class="btn-forest" id="forest-btn">Forest Map</button></div>
-      <footer class="footer">
-        <p></p>
-        <p></p>
-        <p></p>
-      </footer>
+      <div class="buttons">
+        <button class="btn-shop" id="shopBtn">Shop Map</button>
+        <button class="btn-forest" id="forestBtn">Forest Map</button>
+      </div>
     </div>
 
     <div class="div1">
@@ -38,7 +34,10 @@
           <div class="div6" id="enemyHealth"></div>
         </div>
       </div>
-      <div id="displayText" class="tie">Tie</div>
+      <div id="displayText" class="tie">
+        Tie
+        <button id="reset" class="reset"></button>
+      </div>
       <canvas id="arena"></canvas>
     </div>
 

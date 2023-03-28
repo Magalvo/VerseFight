@@ -2,30 +2,101 @@
 
 * {
   box-sizing: border-box;
+  font-family: Righteous;
 }
 
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
+  overflow: hidden;
 }
 
 .start {
+  z-index: 10;
+  background-image: url('/Images/HomeGame.png');
+  background-size: cover;
+  background-position: center;
   position: absolute;
   display: flex;
+  height: 100vh;
+  width: 100vw;
+  flex-wrap: wrap;
+}
+
+/* .nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  color: black;
+  width: 100vw;
+  margin-top: 20px;
+} */
+
+.nav {
+  display: flex;
+  justify-content: space-evenly; /* evenly spaced */
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
+  color: black;
+  width: 100vw;
+  margin-top: 10px;
+  height: 50px; /* set height for buttons */
+}
+
+.nav button {
+  padding: 15px 25px; /* increase padding for bigger buttons */
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px; /* increase font size for better visibility */
+  transition: all 0.2s ease-in-out; /* add transition effect on hover */
+}
+
+.nav button:hover {
+  border: 2px solid black;
+  color: whitesmoke;
+  background-color: #ff403f;
 }
 
 .btn-forest {
-  position: absolute;
-  border: 2px solid white;
+  font-size: 20px;
+  padding: 15px 25px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+  margin-left: 100px;
 }
 
 .btn-shop {
-  position: absolute;
-  border: 2px solid white;
+  font-size: 20px;
+  padding: 15px 25px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+  margin-left: 0;
+  margin-right: 100px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 15px 25px;
+  margin-bottom: 8vh;
+}
+
+.buttons button:hover {
+  border: 2px solid black;
+  color: whitesmoke;
+  background-color: #ff403f;
 }
 
 .arena {
@@ -132,4 +203,16 @@ body {
   border: 2px solid black;
   border-radius: 30px;
   background-color: aliceblue;
+}
+
+.reset {
+  background-image: url('/Images/image-removebg-preview.png');
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  bottom: 50vh;
+  left: 0;
+  display: none;
 }
