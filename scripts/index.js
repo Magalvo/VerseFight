@@ -547,7 +547,7 @@ function animate2() {
     document.getElementById('enemyHealth').style.width = enemy.health + '%';
     console.log('Player Attacking!');
   } else if (enemy.position.y + enemy.height >= canvas.height) {
-    enemy.health -= 100;
+    enemy.health -= enemy.health;
     document.getElementById('enemyHealth').style.width = enemy.health + '%';
     /* restart(); */
   }
@@ -565,7 +565,7 @@ function animate2() {
     document.getElementById('playerHealth').style.width = player.health + '%';
     console.log('Enemy Attacking!');
   } else if (player.position.y + player.height >= canvas.height) {
-    player.health -= 100;
+    player.health -= player.health;
     document.getElementById('playerHealth').style.width = player.health + '%';
     console.log(player.position.y);
     console.log(canvas.height);
@@ -637,17 +637,17 @@ function animate2() {
 
   //------------- Ground ---------------
 
-  /*  if (player.position.y + player.height + player.velocity.y >= canvas.height) {
+  if (player.position.y + player.height + player.velocity.y >= canvas.height) {
     player.velocity.y = 0;
-    player.health -= 100;
-    switchSprite('death');
+    /* player.health -= player.health;
+    switchSprite('death'); */
   }
 
   if (enemy.position.y + enemy.height + enemy.velocity.y >= canvas.height) {
     enemy.velocity.y = 0;
-    enemy.health -= 100;
-    switchSprite('death');
-  } */
+    /* enemy.health -= health;
+    switchSprite('death'); */
+  }
 
   if (player.health === 0 || enemy.health === 0) {
     audio.Map2.pause();
