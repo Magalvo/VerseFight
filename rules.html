@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link
+      rel="shortcut icon"
+      href="/Images/verse-fight-high-resolution-logo-color-on-transparent-background.png"
+      type="image/x-icon"
+    />
+    <title>Verse Fight</title>
+  </head>
+  <body>
+    <div class="start-rules" id="startScreen">
+      <nav class="nav" id="navBar">
+        <a href="index.html" class="nav-a">Home</a>
+        <a href="rules.html" class="nav-a">Rules</a>
+        <button
+          class="nav-btn"
+          onclick="location.href='https://github.com/Magalvo'"
+        >
+          GitHub
+        </button>
+      </nav>
+    </div>
+
+    <div class="div1">
+      <div class="div2">
+        <!--Player Health -->
+        <div class="parent56-2">
+          <div class="div5-2"></div>
+          <div class="div6-2" id="playerHealth"></div>
+        </div>
+        <!-- Enemy health -->
+        <div id="timer" class="div4">10</div>
+        <div class="parent56">
+          <div class="div5"></div>
+          <div class="div6" id="enemyHealth"></div>
+        </div>
+      </div>
+      <div id="displayText" class="tie">
+        Tie
+        <button id="reset" class="reset"></button>
+      </div>
+      <canvas id="arena"></canvas>
+    </div>
+</html>

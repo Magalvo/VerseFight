@@ -5,14 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/styles.css" />
-    <title>The Lost SamuraKat</title>
+    <link
+      rel="shortcut icon"
+      href="/Images/verse-fight-high-resolution-logo-color-on-transparent-background.png"
+      type="image/x-icon"
+    />
+    <title>Verse Fight</title>
   </head>
   <body>
     <div class="start" id="startScreen">
       <nav class="nav" id="navBar">
-        <button class="nav-btn">Rules</button>
-        <button class="nav-btn">About</button>
-        <button class="nav-btn">GitHub</button>
+        <a href="index.html" class="nav-a">Home</a>
+        <a href="rules.html" class="nav-a">Rules</a>
+        <button
+          class="nav-btn"
+          onclick="location.href='https://github.com/Magalvo'"
+        >
+          GitHub
+        </button>
       </nav>
       <div class="buttons">
         <button class="btn-shop" id="shopBtn">Shop Map</button>
@@ -42,11 +52,18 @@
     </div>
 
     <!--  <script src="/scripts/restart.js"></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+      integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script src="/scripts/sprite.js"></script>
     <script src="/scripts/images.js"></script>
     <script src="/scripts/platform.js"></script>
     <script src="/scripts/background.js"></script>
+    <script src="/scripts/sounds.js"></script>
     <script src="/scripts/index.js"></script>
   </body>
 </html>

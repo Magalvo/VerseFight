@@ -13,6 +13,18 @@ canvas.height = window.innerHeight;
 
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+document.addEventListener('keydown', event => {
+  if (event.key === 'r') {
+    window.location.href = 'index.html';
+  }
+});
+
+window.addEventListener('keydown', event => {
+  if (event.key === 'm') {
+    audio.mute(!audio.mute());
+  }
+});
+
 // Player Ensatiation
 const player = new Sprite({
   position: {
@@ -138,19 +150,11 @@ const enemy = new Sprite({
 });
 
 // Platforms Ensatiations
-let base1 = new Platform(
-  canvas.width / 2 - 144,
-  canvas.height / 2 + 50,
-  350,
-  24
-);
+let base1 = new Platform(canvas.width / 2 - 144, canvas.height / 2 + 50);
 
-let base2 = new Platform(
-  canvas.width / 4 - 200,
-  canvas.height / 4 + 100,
-  100,
-  24
-);
+let base2 = new Platform(canvas.width / 4 - 200, canvas.height / 4 + 100);
+
+let base3 = new Platform(canvas.width - 400, canvas.height / 4 + 100);
 
 let shop = new Element({
   position: {
@@ -171,8 +175,6 @@ let shop = new Element({
   scale: 1.75,
   framesMax: 6
 }); */
-
-let base3 = new Platform(canvas.width - 400, canvas.height / 4 + 100, 100, 24);
 
 const keys = {
   a: {
@@ -248,7 +250,7 @@ function determineWinner({ player, enemy, timmerId }) {
   }
 }
 
-let timer = 60;
+let timer = 100;
 let timmerId;
 function decreaseTimer() {
   if (timer > 0) {
@@ -308,13 +310,14 @@ function animate() {
   /*   } else if (mapSelect === 'forest') { */
   /* backgroundForest.updateBackground(); */
   /*  shop2.update(); */
-  shop.update();
-  base1.draw();
-  base2.draw();
-  base3.draw();
-
-  player.update();
-  enemy.update();
+  if (base1.loaded && base2.loaded && base3.loaded) {
+    shop.update();
+    base1.draw();
+    base2.draw();
+    base3.draw();
+    player.update();
+    enemy.update();
+  }
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
@@ -338,7 +341,7 @@ function animate() {
   } else if (player.velocity.y > gravity) {
     player.switchSprite('fall');
   }
-  console.log(player.position.y);
+
   //enemy movement reset
   if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
     enemy.velocity.x = -5;
@@ -366,7 +369,7 @@ function animate() {
     player.isAttacking
   ) {
     player.isAttacking = false;
-    enemy.health -= 20;
+    enemy.health -= 5;
     document.getElementById('enemyHealth').style.width = enemy.health + '%';
     console.log('Player Attacking!');
   } else if (enemy.position.y + enemy.height >= canvas.height) {
@@ -384,7 +387,7 @@ function animate() {
     enemy.isAttacking
   ) {
     enemy.isAttacking = false;
-    player.health -= 20;
+    player.health -= 5;
     document.getElementById('playerHealth').style.width = player.health + '%';
     console.log('Enemy Attacking!');
   } else if (player.position.y + player.height >= canvas.height) {
@@ -454,6 +457,9 @@ function animate() {
     enemy.position.x <= base3.x + base3.width
   ) {
     enemy.velocity.y = 0;
+  }
+  if (player.health <= 0 || enemy.health <= 0) {
+    audio.Map.pause();
   }
 }
 
@@ -495,7 +501,7 @@ function animate2() {
   } else if (player.velocity.y > gravity) {
     player.switchSprite('fall');
   }
-  console.log(player.position.y);
+
   //enemy movement reset
   if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
     enemy.velocity.x = -5;
@@ -612,6 +618,9 @@ function animate2() {
   ) {
     enemy.velocity.y = 0;
   }
+  if (player.health === 0 || enemy.health === 0) {
+    audio.Map.pause();
+  }
 }
 
 //animate();
@@ -637,13 +646,22 @@ const startScreen = document.getElementById('startScreen');
 shopBtn.addEventListener('click', () => {
   navBar.style.display = 'none';
   startScreen.style.display = 'none';
-
+  let clicked = false;
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
+  }
   animate();
 });
 
 forestBtn.addEventListener('click', () => {
   navBar.style.display = 'none';
   startScreen.style.display = 'none';
+  let clicked2 = false;
+  if (!clicked2) {
+    audio.Map2.play();
+    clicked2 = true;
+  }
 
   animate2();
 });
@@ -728,3 +746,11 @@ window.addEventListener('keyup', event => {
       break;
   }
 });
+
+/* let clicked = false;
+addEventListener('click', () => {
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
+  }
+}); */

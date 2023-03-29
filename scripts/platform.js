@@ -1,20 +1,28 @@
-const image = new Image();
-image.src = '/Images/PlatUpDate.png';
-
 class Platform {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.loaded = false;
+
+    const image = new Image();
+
+    image.addEventListener('load', () => {
+      this.loaded = true;
+      this.image = image;
+      console.log('loaded');
+    });
+    image.src = '/Images/PlatUpDatev2.png';
     this.width = image.width;
     this.height = image.height;
-    this.image = new Image();
-    this.image.src = '/Images/PlatUpDateV2.png';
+
+    /* this.image.src = '/Images/PlatUpDateV2.png'; */
   }
 
   draw() {
-    /*     ctx.fillStyle = 'green';
-    ctx.fillRect(this.x, this.y, this.width, this.height); */
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if (this.loaded) {
+      // Draw the platform image
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
   }
 
   colision(player) {

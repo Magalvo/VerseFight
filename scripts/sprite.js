@@ -98,7 +98,6 @@ class Sprite extends Element {
       sprites[sprite].image = new Image();
       sprites[sprite].image.src = sprites[sprite].imageSrc;
     }
-    console.log(this.sprites);
   }
 
   //updtes every detail on the game
@@ -130,8 +129,6 @@ class Sprite extends Element {
         this.position = 231;
       } */
     } else this.velocity.y += gravity; //0 + gravity(0.7)
-    console.log(this.position.y);
-    console.log(this.velocity.y);
   }
 
   attack() {
