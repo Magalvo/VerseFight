@@ -63,7 +63,8 @@ class Sprite extends Element {
     framesMax = 1,
     offset = { x: 0, y: 0 },
     sprites,
-    attackBox = { offset: {}, width: undefined, height: undefined }
+    attackBox = { offset: {}, width: undefined, height: undefined },
+    sound
   }) {
     super({
       position,
@@ -93,6 +94,8 @@ class Sprite extends Element {
     this.framesElapsed = 0;
     this.framesHold = 5;
     this.sprites = sprites;
+    this.dead = false;
+    this.sound = sound;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -103,7 +106,8 @@ class Sprite extends Element {
   //updtes every detail on the game
   update() {
     this.draw();
-    this.animateFrames();
+
+    if (!this.dead) this.animateFrames();
 
     this.attackBox.position.x = this.position.x - this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y - this.attackBox.offset.y;
@@ -134,12 +138,37 @@ class Sprite extends Element {
   attack() {
     this.switchSprite('attack1');
     this.isAttacking = true;
+
+    if (this.sound === 'ice') audio.Ice.play();
+    else if (this.sound === 'sword') audio.Sword.play();
+  }
+
+  takeHit() {
+    this.health -= 5;
+    audio.Hit.play();
+    if (this.health <= 0) {
+      this.switchSprite('death');
+    } else this.switchSprite('takeHit');
   }
 
   switchSprite(sprite) {
+    if (this.image === this.sprites.death.image) {
+      if (this.framesCurrent === this.sprites.death.framesMax - 1)
+        this.dead = true;
+      return;
+    }
+
+    //overriding all other animations with attack sprite
     if (
       this.image === this.sprites.attack1.image &&
       this.framesCurrent < this.sprites.attack1.framesMax - 1
+    )
+      return;
+
+    //override when fighter gets hit
+    if (
+      this.image === this.sprites.takeHit.image &&
+      this.framesCurrent < this.sprites.takeHit.framesMax - 1
     )
       return;
     switch (sprite) {
@@ -178,6 +207,23 @@ class Sprite extends Element {
           this.framesCurrent = 0;
         }
         break;
+      case 'takeHit':
+        if (this.image !== this.sprites.takeHit.image) {
+          this.image = this.sprites.takeHit.image;
+          this.framesMax = this.sprites.takeHit.framesMax;
+          this.framesCurrent = 0;
+        }
+        break;
+      case 'death':
+        if (
+          this.image !== this.sprites.death.image ||
+          enemy.position.y + enemy.height + enemy.velocity.y >=
+            canvas.height - 101
+        ) {
+          this.image = this.sprites.death.image;
+          this.framesMax = this.sprites.death.framesMax;
+          this.framesCurrent = 0;
+        }
     }
   }
 }

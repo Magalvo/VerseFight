@@ -4,8 +4,8 @@ const canvas = document.getElementById('arena');
 const ctx = canvas.getContext('2d');
 
 //Default Canvas
-canvas.width = 1024;
-canvas.height = 576;
+/* canvas.width = 1024;
+canvas.height = 576; */
 
 //Full Screen Width
 canvas.width = window.innerWidth;
@@ -21,7 +21,8 @@ document.addEventListener('keydown', event => {
 
 window.addEventListener('keydown', event => {
   if (event.key === 'm') {
-    audio.mute(!audio.mute());
+    audio.Map.mute(!audio.world.mute());
+    audio.Map2.mute(!audio.world2.mute());
   }
 });
 
@@ -72,9 +73,9 @@ const player = new Sprite({
       imageSrc: '/Images/Fantasy Warrior/Sprites/Death.png',
       framesMax: 7
     },
-    hit: {
-      imageSrc: '/Images/Fantasy Warrior/Sprites/Death.png',
-      framesMax: 4
+    takeHit: {
+      imageSrc: '/Images/Fantasy Warrior/Sprites/Take hit.png',
+      framesMax: 3
     }
   },
   attackBox: {
@@ -84,7 +85,8 @@ const player = new Sprite({
     },
     width: 100,
     height: 50
-  }
+  },
+  sound: 'sword'
 });
 
 //Enemy Ensasiation
@@ -131,11 +133,11 @@ const enemy = new Sprite({
       framesMax: 8
     },
     death: {
-      imageSrc: '/Images/Fantasy Warrior/Sprites/Death.png',
+      imageSrc: '/Images/Wizard Pack/Death 2.png',
       framesMax: 7
     },
-    hit: {
-      imageSrc: '/Images/Fantasy Warrior/Sprites/Death.png',
+    takeHit: {
+      imageSrc: '/Images/Wizard Pack/Hitr.png',
       framesMax: 4
     }
   },
@@ -146,7 +148,8 @@ const enemy = new Sprite({
     },
     width: 100,
     height: 50
-  }
+  },
+  sound: 'ice'
 });
 
 // Platforms Ensatiations
@@ -232,6 +235,9 @@ function rectangleCollision({ rectangle1, rectangle2 }) {
 function determineWinner({ player, enemy, timmerId }) {
   clearTimeout(timmerId);
   document.getElementById('displayText').style.display = 'flex';
+  audio.Map.stop();
+  audio.Map2.stop();
+  audio.GameOver.play();
   /* player.velocity.y = 0;
   player.velocity.x = 0;
   enemy.velocity.y = 0;
@@ -368,8 +374,8 @@ function animate() {
     }) &&
     player.isAttacking
   ) {
+    enemy.takeHit();
     player.isAttacking = false;
-    enemy.health -= 5;
     document.getElementById('enemyHealth').style.width = enemy.health + '%';
     console.log('Player Attacking!');
   } else if (enemy.position.y + enemy.height >= canvas.height) {
@@ -386,8 +392,8 @@ function animate() {
     }) &&
     enemy.isAttacking
   ) {
+    player.takeHit();
     enemy.isAttacking = false;
-    player.health -= 5;
     document.getElementById('playerHealth').style.width = player.health + '%';
     console.log('Enemy Attacking!');
   } else if (player.position.y + player.height >= canvas.height) {
@@ -461,6 +467,13 @@ function animate() {
   if (player.health <= 0 || enemy.health <= 0) {
     audio.Map.pause();
   }
+
+  addEventListener('keydown', event => {
+    if (event.key === 'm') {
+      audio.Map.mute();
+      console.log('loguinhu');
+    }
+  });
 }
 
 function animate2() {
@@ -528,8 +541,9 @@ function animate2() {
     }) &&
     player.isAttacking
   ) {
+    enemy.takeHit();
+    audio.Sword.play();
     player.isAttacking = false;
-    enemy.health -= 20;
     document.getElementById('enemyHealth').style.width = enemy.health + '%';
     console.log('Player Attacking!');
   } else if (enemy.position.y + enemy.height >= canvas.height) {
@@ -546,13 +560,15 @@ function animate2() {
     }) &&
     enemy.isAttacking
   ) {
+    player.takeHit();
     enemy.isAttacking = false;
-    player.health -= 20;
     document.getElementById('playerHealth').style.width = player.health + '%';
     console.log('Enemy Attacking!');
   } else if (player.position.y + player.height >= canvas.height) {
     player.health -= 100;
     document.getElementById('playerHealth').style.width = player.health + '%';
+    console.log(player.position.y);
+    console.log(canvas.height);
     /* restart(); */
   }
 
@@ -618,9 +634,31 @@ function animate2() {
   ) {
     enemy.velocity.y = 0;
   }
-  if (player.health === 0 || enemy.health === 0) {
-    audio.Map.pause();
+
+  //------------- Ground ---------------
+
+  /*  if (player.position.y + player.height + player.velocity.y >= canvas.height) {
+    player.velocity.y = 0;
+    player.health -= 100;
+    switchSprite('death');
   }
+
+  if (enemy.position.y + enemy.height + enemy.velocity.y >= canvas.height) {
+    enemy.velocity.y = 0;
+    enemy.health -= 100;
+    switchSprite('death');
+  } */
+
+  if (player.health === 0 || enemy.health === 0) {
+    audio.Map2.pause();
+  }
+
+  addEventListener('keydown', event => {
+    if (event.key === 'm') {
+      audio.Map2.mute();
+      console.log('logado');
+    }
+  });
 }
 
 //animate();
@@ -685,6 +723,7 @@ window.addEventListener('keydown', event => {
         if (player.health > 0) {
           player.velocity.y = -20;
         }
+        audio.Jump.play();
         break;
       case 's':
         if (player.health > 0) {
@@ -709,6 +748,7 @@ window.addEventListener('keydown', event => {
         if (enemy.health > 0) {
           enemy.velocity.y = -20;
         }
+        audio.Jump.play();
         break;
       case 'ArrowDown':
         enemy.attack();
