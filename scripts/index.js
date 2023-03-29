@@ -464,6 +464,19 @@ function animate() {
   ) {
     enemy.velocity.y = 0;
   }
+
+  if (player.position.y + player.height + player.velocity.y >= canvas.height) {
+    player.velocity.y = 0;
+    /* player.health -= player.health;
+    switchSprite('death'); */
+  }
+
+  if (enemy.position.y + enemy.height + enemy.velocity.y >= canvas.height) {
+    enemy.velocity.y = 0;
+    /* enemy.health -= health;
+    switchSprite('death'); */
+  }
+
   if (player.health <= 0 || enemy.health <= 0) {
     audio.Map.pause();
   }
