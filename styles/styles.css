@@ -15,7 +15,7 @@ body {
 
 .start {
   z-index: 10;
-  background-image: url('/Images/HomeGame.png');
+  background-image: url('/Images/2.png');
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -26,7 +26,7 @@ body {
 }
 .start-rules {
   z-index: 10;
-  background-image: url('/Images/basic_rules.png');
+  background-image: url('/Images/ruler.png');
   background-size: cover;
   background-position: center;
   position: absolute;
